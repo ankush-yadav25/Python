@@ -5,7 +5,7 @@ class MongoDB:
     def __init__(self, db_name, collection_name) -> None:
         self.client = MongoClient("mongodb://localhost:27017/")
         self.db = self.client[db_name]
-        self.coll = self.client[collection_name]
+        self.coll = self.db[collection_name]
 
 
     def find_all(self):
