@@ -1,13 +1,20 @@
+from pymongo import MongoClient
+
 class MongoDB:
 
-    def findd(self):
-        import pymongo
-        client = pymongo.MongoClient("mongodb://localhost:27017/")
-        print(client.list_database_names())
-        db = client["customersdb"]
-        customers = db["customers"]
-        for x in customers.find():
+    def __init__(self, db_name, collection_name) -> None:
+        self.client = MongoClient("mongodb://localhost:27017/")
+        self.db = self.client[db_name]
+        self.coll = self.db[collection_name]
+
+
+    def find_all(self):
+        for x in self.customers.find():
             print(x)
+
+    def find_by_id(self, id):
+        result = self.customers.find_one({'_id':id})
+        return result
 
     def insertvalue(self):
         import pymongo
@@ -18,6 +25,7 @@ class MongoDB:
         collection = customers.my_gfg_collection
 
         emp_rec1 = {
+            '_id':123,
             "name": "Mr.Geek",
             "eid": 24,
             "location": "delhi"
@@ -125,12 +133,16 @@ class MongoDB:
 
 
 
-x= MongoDB()
+x= MongoDB("customersdb", "customers")
 
-#find
-x.findd()
+#find 
+x.find_all()
+
 #insert
 x.insertvalue()
+
+result = x.find_by_id(123)
+print(result)
 
 # update
 x.updatevalue()
